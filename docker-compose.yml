@@ -1,0 +1,19 @@
+version: "3.0"
+services:
+  dll-kibana:
+    image: docker.elastic.co/kibana/kibana:7.1.1
+    container_name: dll-kibana
+    hostname: dll-kibana
+    external_links:
+        - dll-elasticsearch:dll-elasticsearch
+    ports:
+      - 5601:5601
+    environment:
+      # elasticSearch是容器名称, 这里, 集群要保证主节点对应的这个
+      - ELASTICSEARCH_HOSTS=http://dll-elasticsearch:9200 # connect the es-balance node
+      - I18N_LOCALE=zh-CN
+    networks:
+      - es-single_elk
+networks:
+  es-single_elk:
+    external: true   
